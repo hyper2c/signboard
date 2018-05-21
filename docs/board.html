@@ -1,0 +1,57 @@
+<html>
+<head>
+<script type="text/javascript">
+var scrollX = 0;
+var scrollInterval = 2;
+window.onload = function () {
+	var val = getUrlVars();
+	if(val['sec'] >= 0) {
+		scrollInterval = val['sec'];
+	}
+	document.getElementById("BoxText").textContent = '　　' + val['text'] + '　　';
+	autoScroll();
+}
+function getUrlVars() {
+	var vars = {}; 
+	var param = location.search.substring(1).split('&');
+	for(var i = 0; i < param.length; i++) {
+		var keySearch = param[i].search(/=/);
+		var key = '';
+		if(keySearch != -1) key = param[i].slice(0, keySearch);
+		var val = param[i].slice(param[i].indexOf('=', 0) + 1);
+		if(key != '') vars[key] = decodeURI(val);
+	}
+	return vars; 
+}
+function autoScroll() {
+	var textBox = document.getElementById( "textBox" );
+	scrollX += 5;
+	textBox.scrollLeft = scrollX;
+	if( scrollX < textBox.scrollWidth - textBox.clientWidth ){
+		setTimeout( "autoScroll()", scrollInterval );
+	}else{
+		scrollX = 0;
+		textBox.scrollLeft = 0;
+		setTimeout( "autoScroll()", scrollInterval );
+	}
+}
+</script>
+<style>
+#textBox {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+}
+</style>
+</head>
+<body>
+<div id="textBox" style="white-space: nowrap; line-height:1; margin:0px;">
+	<div id="BoxText">あいうえおあいうえおあいうえおあいうえおあいうえおあいうえお</div>
+</div>
+<script type=text/javascript>
+	document.getElementById("textBox").style.width    = window.innerWidth;
+	document.getElementById("textBox").style.height   = window.innerHeight;
+	document.getElementById("BoxText").style.fontSize = window.innerHeight;
+</script>
+</body>
+</html>
